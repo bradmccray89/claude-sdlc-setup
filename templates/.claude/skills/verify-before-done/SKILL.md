@@ -1,0 +1,36 @@
+---
+name: verify-before-done
+description: Consult this whenever you are about to report a coding task, bug fix, or feature as complete, before opening a PR, or before telling the user something is finished. Defines this project's definition of done — including proving changes work by running them and growing the test suite one task at a time — and how to correctly read a verification failure. A Stop hook enforces the gate automatically; read this so you fix root causes instead of retrying blindly.
+---
+
+# Verify before done
+
+## Definition of done
+
+A change is complete only when all of these hold:
+
+1. **Lint and build/typecheck are clean** — no errors, and no suppressions added just to pass.
+2. **You proved the change works** — you ran the changed code path (executed the script, hit the endpoint, exercised the function) and observed the correct result. Include that evidence in your summary. "It should work" is not verification.
+3. **You left a test behind** — at least one automated test covering the behavior you changed. This project's suite is young and grows one task at a time, exactly where the code changes. Never propose a test backfill; just cover what you touched. If no test runner exists yet, setting one up with the first test IS part of the task — one-time, keep it minimal.
+4. **Docs match reality** — if behavior, a public API, config, or setup changed, run the update-docs skill before finishing.
+5. **The full existing suite passes** — whatever tests exist, all of them, not just yours. This is what catches "fixed X, broke Y."
+
+`.claude/hooks/verify.sh` enforces the mechanical parts (lint, build, smoke, tests) as a Stop hook and will not let a session end while any configured check is red.
+
+## Reading a failure correctly
+
+- Read the actual error and file/line, not just "it failed."
+- If an **unrelated** existing test fails, that's a regression you introduced. Fix the root cause. Never edit, skip, or delete the failing test to get back to green.
+- If a failure looks flaky (intermittent, unrelated to your change), say so explicitly in your response instead of quietly loosening an assertion to make it pass.
+- On the 3rd consecutive failure, the hook blocks one final time and instructs you to stop fixing and report honestly. That reply must state plainly that the task is NOT done, what's failing, and what you tried — then the turn will be allowed to end.
+
+## What "done" is not
+
+- Tests pass because they were deleted, skipped, or commented out.
+- Lint/build is clean because of a blanket suppression.
+- "Proved it works" by reading the code instead of running it.
+- Docs describe what the code was supposed to do rather than what you verified it does.
+
+## Setup (for whoever installs this)
+
+Edit the commands at the top of `.claude/hooks/verify.sh` — they run cheapest-first, and empty commands are skipped, so the gate works on day one with just lint + build. Add `SMOKE_CMD` once a one-command boot check exists, and set `TEST_CMD` the day the first test lands; the gate grows with the project. In `.claude/settings.json`, keep the hook `timeout` comfortably above your slowest full run — a timed-out hook fails open and silently disarms the gate. Commit `.claude/` and `CLAUDE.md`; every dev who clones gets the same workflow (they may see a one-time prompt to approve the project's hooks).
