@@ -1,6 +1,6 @@
 ---
 name: update-docs
-description: Update project documentation to match code changes. Use this after completing any change that alters behavior, a public API, configuration, CLI flags, environment variables, or setup steps — even if the user didn't mention docs. Also use whenever the user says docs are stale or outdated, asks to update the README or CHANGELOG, or invokes /update-docs directly.
+description: Update documentation to match verified code changes. Use after any change to behavior, a public API, config, CLI flags, env vars, or setup — even unprompted — and whenever the user says docs are stale or invokes /update-docs.
 ---
 
 # Update docs

@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Verification gate state (written by templates/.claude/hooks/verify.sh at runtime,
+# under $TMPDIR — never inside the repo, but ignore it here as a safety net)
+claude-verify/
+
+# Local scratch / test output from exercising install.sh against throwaway dirs
+/tmp-kit-test/
+*.log
