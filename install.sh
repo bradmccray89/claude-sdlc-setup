@@ -42,7 +42,10 @@ LINT_CMD=""; BUILD_CMD=""; SMOKE_CMD=""; TEST_CMD=""
 PKG="$TARGET/package.json"
 if [ -f "$TARGET/angular.json" ] || grep -q '"@angular/core"' "$PKG" 2>/dev/null; then
   STACK="angular"
-  NG_MAJOR=$(sed -n 's/.*"@angular\/core"[^0-9]*\([0-9][0-9]*\).*/\1/p' "$PKG" 2>/dev/null | head -1)
+  # `|| true`: a no-match (or missing package.json) makes the piped substitution
+  # exit non-zero under `set -o pipefail`, which would abort the script. An empty
+  # result is a valid "version unknown" here, not a failure.
+  NG_MAJOR=$(sed -n 's/.*"@angular\/core"[^0-9]*\([0-9][0-9]*\).*/\1/p' "$PKG" 2>/dev/null | head -1) || true
   grep -q '"lint"[[:space:]]*:'  "$PKG" 2>/dev/null && LINT_CMD="npm run lint"
   grep -q '"build"[[:space:]]*:' "$PKG" 2>/dev/null && BUILD_CMD="npm run build"
   if grep -q '"test"[[:space:]]*:' "$PKG" 2>/dev/null; then
@@ -58,9 +61,12 @@ if [ -f "$TARGET/angular.json" ] || grep -q '"@angular/core"' "$PKG" 2>/dev/null
   fi
 elif find "$TARGET" -maxdepth 1 -type f \( -name '*.csproj' -o -name '*.sln' \) 2>/dev/null | grep -q .; then
   STACK="dotnet"
+  # `|| true`: a csproj with no <TargetFramework> line (or one set elsewhere, e.g.
+  # Directory.Build.props) makes grep exit non-zero, which under `set -o pipefail`
+  # would abort the script. An empty TFM is a valid "unknown", not a failure.
   TFM=$(find "$TARGET" -maxdepth 3 -name '*.csproj' -exec grep -hoE '<TargetFrameworks?>[^<]+' {} + 2>/dev/null \
-        | head -1 | sed -E 's/<TargetFrameworks?>//' | cut -d';' -f1)
-  NET_MAJOR=$(printf '%s' "$TFM" | sed -n 's/^net\([0-9][0-9]*\).*/\1/p')
+        | head -1 | sed -E 's/<TargetFrameworks?>//' | cut -d';' -f1) || true
+  NET_MAJOR=$(printf '%s' "$TFM" | sed -n 's/^net\([0-9][0-9]*\).*/\1/p') || true
   BUILD_CMD="dotnet build"
   # LINT_CMD stays empty on purpose: "dotnet format --verify-no-changes" fails
   # on PRE-EXISTING formatting anywhere in the repo, which would block the gate
@@ -87,6 +93,7 @@ FILES=(
 ANGULAR_FILES=(
   ".claude/skills/angular-conventions/SKILL.md"
   ".claude/skills/angular-testing/SKILL.md"
+  ".claude/skills/angular-upgrade/SKILL.md"
 )
 DOTNET_FILES=(
   ".claude/skills/dotnet-conventions/SKILL.md"

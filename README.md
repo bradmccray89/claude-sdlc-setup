@@ -14,6 +14,7 @@ time.
 | `.claude/skills/update-docs/` | Documentation agent. Keeps docs matched to *verified* behavior, not intent. |
 | `.claude/skills/angular-conventions/` | Angular-only. Universal rules + a version-gate table (v14→latest) so generated code stays inside the repo's version ceiling. |
 | `.claude/skills/angular-testing/` | Angular-only. How to write the test the gate requires — TestBed, `HttpTestingController`, harnesses, `fakeAsync`, signals — matched to the repo's runner. |
+| `.claude/skills/angular-upgrade/` | Angular-only. The migration discipline for bumping Angular a major at a time — `ng update`, the migration schematics, and the known painful jumps (Material MDC, RxJS 7, the esbuild builder, standalone-by-default). |
 | `.claude/skills/dotnet-conventions/` | .NET-only. Universal async/DI/EF Core rules + a C#-ceiling-by-TFM table (net6→latest). |
 | `.claude/skills/dotnet-testing/` | .NET-only. How to write the test the gate requires — xUnit, `WebApplicationFactory`, EF Core DB strategy, mocking. |
 
