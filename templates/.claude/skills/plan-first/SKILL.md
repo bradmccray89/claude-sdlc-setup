@@ -37,9 +37,8 @@ Before touching code, state briefly:
 5. **How you'll prove it** — the test or behavioral check that will show it works
    (sets up verify-before-done).
 
-Keep it to a few lines, not a document. Ground it first: check
-`.claude/decisions.md` for prior decisions on this area, read the House patterns,
-and read the code you'll change.
+Keep it to a few lines, not a document, and ground it first — check
+`.claude/decisions.md` for prior decisions here and read the code you'll change.
 
 ## Stop and ask when
 

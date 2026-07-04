@@ -6,12 +6,10 @@ description: Repo-tailored Angular coding standards. Consult before writing or e
 # Angular conventions
 
 CLAUDE.md pins this repo's Angular version — trust it; check `@angular/core` in
-package.json only if it's missing. **Ground before writing:** find the nearest
-existing component/service/guard (prefer CLAUDE.md's House patterns) and mirror
-its structure and idioms — matching real code in this repo beats applying these
-rules in the abstract. **Consistency with surrounding code beats the newest
-feature:** don't migrate a file's style (NgModule↔standalone, RxJS↔signals)
-mid-task unless asked.
+package.json only if it's missing. Ground first per workflow step 1 (mirror the
+nearest existing component/service/guard). **Consistency with surrounding code
+beats the newest feature:** don't migrate a file's style (NgModule↔standalone,
+RxJS↔signals) mid-task unless asked.
 
 ## Every version
 

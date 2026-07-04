@@ -5,9 +5,10 @@ description: Creating or changing an HTTP API surface — controller, endpoint, 
 
 # .NET API design
 
-Applies to **new and existing** endpoints. Match the repo's style — controllers
-vs minimal APIs — and don't introduce the other mid-change. The rules split by
-whether you're adding surface or changing surface others already depend on.
+Applies to **new and existing** endpoints. General C# style — controllers vs
+minimal APIs, async, DTO records — is owned by dotnet-conventions; this skill is
+the API-surface layer on top. The rules split by whether you're adding surface or
+changing surface others already depend on.
 
 ## Every endpoint
 
