@@ -11,6 +11,7 @@ time.
 |---|---|
 | `.claude/hooks/verify.sh` | Stop hook. Blocks Claude from finishing until the checks in `.claude/verify.config` pass. Cheapest-check-first, escalates to a human after 3 failed attempts, fast-fails in one step on a check that *can't run* (missing tool/script, no browser), skips question-only turns, and caches the last passing state so an unchanged tree doesn't re-run the suite. |
 | `.claude/hooks/protect-paths.sh` | PreToolUse hook. Before an Edit/Write, if the target matches a glob in `.claude/protected-paths` it asks the user to confirm — a soft guard for files dangerous to hand-edit (applied EF migrations, generated code, lock/vendored files). Never hard-blocks; fails open. |
+| `.claude/hooks/session-context.sh` | SessionStart hook. Injects orientation into a new session — recent entries from the decision log plus a short git summary (branch, dirty count, recent commits) — so the repo's memory is consumed automatically. Dependency-free; fails open. |
 | `.claude/skills/plan-first/` | Scope non-trivial or ambiguous work before coding — restate the goal, name the approach and risks, and ask when a requirement is unclear. Catches "right code, wrong thing." Skips trivial edits. |
 | `.claude/skills/verify-before-done/` | The definition of done the hook enforces, and how to correctly read a failure. |
 | `.claude/skills/update-docs/` | Documentation agent. Keeps docs matched to *verified* behavior, not intent. |
@@ -134,10 +135,12 @@ rerun `install.sh` once — it generates `verify.config` from detection and
   a skill, not a hook: planning is judgment, and a Stop hook can only see code
   that already exists. Trivial edits skip it, so it's not ceremony.
 - **The setup compounds.** `.claude/decisions.md` is a committed, shared log of
-  decisions, corrections, and gotchas. Claude consults it before non-trivial
-  work and appends to it as it learns, so session 100 knows what sessions 1–99
-  figured out instead of starting cold. The `project-memory` skill keeps it
-  disciplined — only entries that save a future session real time.
+  decisions, corrections, and gotchas. Claude appends to it as it learns, and the
+  SessionStart hook auto-surfaces the recent entries into every new session — so
+  the memory is *consumed reliably*, not just when Claude remembers to open the
+  file. Session 100 starts knowing what sessions 1–99 figured out. The
+  `project-memory` skill keeps it disciplined — only entries that save a future
+  session real time.
 - **No test backfills, ever — coverage grows as exhaust from real tasks.**
   Every task that touches code leaves one test behind, covering exactly what
   just changed.

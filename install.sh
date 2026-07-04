@@ -88,6 +88,7 @@ echo ""
 FILES=(
   ".claude/hooks/verify.sh"
   ".claude/hooks/protect-paths.sh"
+  ".claude/hooks/session-context.sh"
   ".claude/skills/plan-first/SKILL.md"
   ".claude/skills/verify-before-done/SKILL.md"
   ".claude/skills/update-docs/SKILL.md"
@@ -147,6 +148,16 @@ $ALLOW_LINES
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-context.sh"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit|NotebookEdit",
@@ -217,9 +228,10 @@ landmines worth carrying across sessions so they don't get rediscovered every
 time. Newest first. See the project-memory skill for what qualifies; keep it
 signal, not noise, and commit it like any other source.
 
-<!-- Example — delete once you have real entries:
-## 2026-01-15 — [decision] Missing resources return 404, not 200 + null
-Clients branch on status code; a null 200 hid failures. Applies to all read endpoints.
+<!-- Example (delete once you have real entries; indented so it's not mistaken
+     for a real entry by the session-context hook):
+     ## 2026-01-15 — [decision] Missing resources return 404, not 200 + null
+     Clients branch on status; a null 200 hid failures. Applies to all read endpoints.
 -->
 EOF
   echo "wrote:         .claude/decisions.md (empty log)"
