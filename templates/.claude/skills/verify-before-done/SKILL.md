@@ -10,11 +10,7 @@ description: Consult before reporting a task complete or opening a PR — the de
 A change is complete only when all of these hold:
 
 1. **Lint and build/typecheck are clean** — no errors, and no suppressions added just to pass.
-2. **You proved the change works by running it, not by reading it.** Exercise the actual changed path and put the observed result in your summary:
-   - a function/service → call it (a unit test that exercises it counts) and show the output;
-   - an API endpoint → hit it against a booted app — a `WebApplicationFactory` integration test, or a `SMOKE_CMD` that boots the app and curls the route;
-   - an Angular component/flow → render it in a test, or boot the app and drive the UI.
-   For anything a test can't cover, use the `verify` skill to drive the running app and observe behavior. "It should work" and "the build passed" are not proof that the behavior is correct.
+2. **You proved the change works by running it, not by reading it.** Exercise the actual changed path — call the function, hit the endpoint, render the component, or boot the app — and put the observed result in your summary. A test that genuinely exercises the change is the durable form of this (see the testing skill for how to write it); for what a test can't cover, use the `verify` skill to drive the running app. "It should work" and "the build passed" are not proof that the behavior is correct.
 3. **You left a test behind** — at least one automated test covering the behavior you changed. This project's suite is young and grows one task at a time, exactly where the code changes. Never propose a test backfill; just cover what you touched. If no test runner exists yet, setting one up with the first test IS part of the task — one-time, keep it minimal.
 4. **Docs match reality** — if behavior, a public API, config, or setup changed, run the update-docs skill before finishing.
 5. **The full existing suite passes** — whatever tests exist, all of them, not just yours. This is what catches "fixed X, broke Y."
