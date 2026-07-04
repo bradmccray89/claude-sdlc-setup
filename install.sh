@@ -94,12 +94,15 @@ ANGULAR_FILES=(
   ".claude/skills/angular-conventions/SKILL.md"
   ".claude/skills/angular-testing/SKILL.md"
   ".claude/skills/angular-upgrade/SKILL.md"
+  ".claude/skills/angular-scaffolding/SKILL.md"
 )
 DOTNET_FILES=(
   ".claude/skills/dotnet-conventions/SKILL.md"
   ".claude/skills/dotnet-testing/SKILL.md"
   ".claude/skills/dotnet-upgrade/SKILL.md"
   ".claude/skills/ef-core-migrations/SKILL.md"
+  ".claude/skills/dotnet-api-design/SKILL.md"
+  ".claude/skills/dotnet-scaffolding/SKILL.md"
 )
 case "$STACK" in
   angular) FILES+=("${ANGULAR_FILES[@]}") ;;

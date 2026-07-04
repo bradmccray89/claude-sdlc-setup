@@ -15,10 +15,13 @@ time.
 | `.claude/skills/angular-conventions/` | Angular-only. Universal rules + a version-gate table (v14→latest) so generated code stays inside the repo's version ceiling. |
 | `.claude/skills/angular-testing/` | Angular-only. How to write the test the gate requires — TestBed, `HttpTestingController`, harnesses, `fakeAsync`, signals — matched to the repo's runner. |
 | `.claude/skills/angular-upgrade/` | Angular-only. The migration discipline for bumping Angular a major at a time — `ng update`, the migration schematics, and the known painful jumps (Material MDC, RxJS 7, the esbuild builder, standalone-by-default). |
+| `.claude/skills/angular-scaffolding/` | Angular-only. Reach for `ng generate` when adding a component/service/pipe/etc. (new or existing project) so files match the repo's schematics and get wired up. |
 | `.claude/skills/dotnet-conventions/` | .NET-only. Universal async/DI/EF Core rules + a C#-ceiling-by-TFM table (net6→latest). |
 | `.claude/skills/dotnet-testing/` | .NET-only. How to write the test the gate requires — xUnit, `WebApplicationFactory`, EF Core DB strategy, mocking. |
 | `.claude/skills/dotnet-upgrade/` | .NET-only. The discipline for bumping the target framework a major at a time, and the separate job of porting .NET Framework → modern .NET (Upgrade Assistant, `try-convert`, unportable areas). |
 | `.claude/skills/ef-core-migrations/` | .NET-only. Creating, reviewing, and applying EF Core migrations without losing data or breaking shared history — never edit a shipped migration, catch scaffolded rename-as-drop, commit the snapshot together. |
+| `.claude/skills/dotnet-api-design/` | .NET-only. Creating *or changing* HTTP API surface — status codes, `ProblemDetails`, DTO/record separation, validation, versioning, and not breaking an existing contract. Scoped to API work. |
+| `.claude/skills/dotnet-scaffolding/` | .NET-only. Reach for `dotnet new` / `dotnet sln` / `dotnet add` / `dotnet ef` when adding a project, reference, or migration (new or existing solution) instead of hand-editing csproj/sln. |
 
 ## Generated at install (not in `templates/`)
 
