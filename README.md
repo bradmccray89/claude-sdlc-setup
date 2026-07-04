@@ -107,6 +107,15 @@ rerun `install.sh` once — it generates `verify.config` from detection and
 - **Facts beat tutorials.** The generated CLAUDE.md pins the repo's version and
   era in a few always-loaded lines; the skills carry only the rules and version
   ceilings, not re-teaching. Cheaper in tokens, more reliable in behavior.
+- **Ground in real code, don't just apply rules.** CLAUDE.md carries a "House
+  patterns" section pointing at canonical exemplar files; the conventions skills
+  tell Claude to read the nearest existing example and mirror it before writing.
+  "Looks like we wrote it" comes from matching real code, not generic idioms.
+- **Verification is behavioral, not just mechanical.** The gate proves
+  lint/build/test are green; the definition of done additionally requires
+  *running the changed path and observing the result* — a `WebApplicationFactory`
+  test, a `SMOKE_CMD` that boots and hits the app, or the `verify` skill driving
+  the running UI. Green compile ≠ correct behavior.
 - **No test backfills, ever — coverage grows as exhaust from real tasks.**
   Every task that touches code leaves one test behind, covering exactly what
   just changed.

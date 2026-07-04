@@ -6,8 +6,12 @@ description: Repo-tailored C#/.NET coding standards. Consult before writing or e
 # .NET conventions
 
 CLAUDE.md pins this repo's TFM — trust it; check the .csproj only if it's
-missing. **Match the repo's established style** (controllers vs minimal APIs,
-`Startup.cs` vs top-level `Program.cs`) — don't introduce the other mid-task.
+missing. **Ground before writing:** find the nearest existing
+controller/service/entity (prefer CLAUDE.md's House patterns) and mirror its
+structure and idioms — matching real code in this repo beats applying these
+rules in the abstract. **Match the repo's established style** (controllers vs
+minimal APIs, `Startup.cs` vs top-level `Program.cs`) — don't introduce the
+other mid-task.
 
 ## Every version
 

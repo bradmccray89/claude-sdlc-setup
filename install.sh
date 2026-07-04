@@ -163,9 +163,15 @@ fi
 
 # ---------- Generated: .claude/verify.config (project-owned) ----------
 case "$STACK" in
-  angular) CFG_TIP="# Keep test flags non-interactive: watch mode hangs the hook until it times out." ;;
-  dotnet)  CFG_TIP='# Once "dotnet format --verify-no-changes" passes on a clean tree, set it as LINT_CMD.' ;;
-  *)       CFG_TIP="# Fill these in with this project's real commands (non-interactive only)." ;;
+  angular)
+    CFG_TIP="# Keep test flags non-interactive: watch mode hangs the hook until it times out."
+    SMOKE_TIP=$'# SMOKE_CMD (optional but high-value): a fast behavioral check that the app RUNS,\n# not just builds — e.g. a headless boot, or curl a route against a started \'ng serve\'.\n# This is what makes "I proved it works" enforceable instead of claimed.' ;;
+  dotnet)
+    CFG_TIP='# Once "dotnet format --verify-no-changes" passes on a clean tree, set it as LINT_CMD.'
+    SMOKE_TIP=$'# SMOKE_CMD (optional but high-value): a fast behavioral check that the app RUNS,\n# not just compiles — e.g. boot and curl /health, or a WebApplicationFactory smoke test.\n# This is what makes "I proved it works" enforceable instead of claimed.' ;;
+  *)
+    CFG_TIP="# Fill these in with this project's real commands (non-interactive only)."
+    SMOKE_TIP='# SMOKE_CMD (optional but high-value): a fast check that the app actually runs.' ;;
 esac
 
 if [ -f "$TARGET/.claude/verify.config" ]; then
@@ -178,6 +184,7 @@ else
 $CFG_TIP
 LINT_CMD="$LINT_CMD"
 BUILD_CMD="$BUILD_CMD"
+$SMOKE_TIP
 SMOKE_CMD="$SMOKE_CMD"
 TEST_CMD="$TEST_CMD"
 EOF
@@ -221,6 +228,13 @@ else
     fi
   fi
 
+  # Stack-tailored exemplar slots for the House patterns section.
+  case "$STACK" in
+    angular) HOUSE=$'- Component / UI: [path, e.g. src/app/…]\n- Service / data access: [path]\n- Route guard or resolver: [path]\n- Test (.spec.ts): [path]' ;;
+    dotnet)  HOUSE=$'- Controller / endpoint: [path]\n- Service / business logic: [path]\n- EF entity or DbContext config: [path]\n- Test: [path]' ;;
+    *)       HOUSE=$'- Component / module: [path]\n- Service / data access: [path]\n- Test: [path]' ;;
+  esac
+
   {
     cat <<'HDR'
 # Project guide for Claude
@@ -246,15 +260,22 @@ HDR
     cat <<'RST'
 ## The workflow (every task)
 
-1. Understand before editing — read the relevant code first; plan non-trivial work.
+1. Ground before editing — find the nearest existing example of what you're building (prefer the House patterns below), read it, and mirror its structure. Plan non-trivial work before touching code.
 2. Targeted edits, not wholesale rewrites.
-3. Prove it by running it, then leave one test behind (verify-before-done skill).
+3. Prove it by running the changed path and observing the result, then leave one test behind (verify-before-done skill).
 4. If behavior changed, update the docs (update-docs skill).
 5. Finishing triggers the verification gate automatically; fix root causes — never delete, skip, or weaken a check to get past it.
 
+RST
+    printf '## House patterns\n\n'
+    printf 'Canonical files to mirror when writing new code — read the relevant one first so\n'
+    printf 'new code matches the repo instead of generic framework defaults. Fill in real\n'
+    printf 'paths; delete a line you have no exemplar for yet.\n\n'
+    printf '%s\n\n' "$HOUSE"
+    cat <<'RST'
 ## Conventions
 
-- [Project-specific patterns reviewers keep flagging — the stack skills already cover the generic ones]
+- [Project-specific patterns reviewers keep flagging — the stack skills cover the generic ones]
 
 ## Boundaries
 
