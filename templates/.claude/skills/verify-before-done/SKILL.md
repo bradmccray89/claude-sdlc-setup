@@ -1,6 +1,6 @@
 ---
 name: verify-before-done
-description: Consult before reporting any coding task complete or opening a PR. Defines the definition of done (prove it ran, leave one test behind, docs match) and how to respond correctly when the Stop-hook verification gate blocks you.
+description: Consult before reporting a task complete or opening a PR — the definition of done, and how to respond when the Stop-hook verification gate blocks you.
 ---
 
 # Verify before done

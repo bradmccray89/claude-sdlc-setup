@@ -1,6 +1,6 @@
 ---
 name: update-docs
-description: Update documentation to match verified code changes. Use after any change to behavior, a public API, config, CLI flags, env vars, or setup — even unprompted — and whenever the user says docs are stale or invokes /update-docs.
+description: Update docs to match verified changes — behavior, API, config, CLI, env vars, or setup changed; docs are stale; or /update-docs.
 ---
 
 # Update docs

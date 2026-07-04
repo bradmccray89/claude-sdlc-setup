@@ -1,6 +1,6 @@
 ---
 name: dotnet-api-design
-description: Design and evolve HTTP API surface in this .NET repo — creating OR changing a controller, minimal-API endpoint, request/response DTO, or error shape. Consult for status codes, ProblemDetails, DTO separation, validation, versioning, and not breaking an existing contract. Scoped to API-surface work, so it complements (not duplicates) dotnet-conventions.
+description: Creating or changing an HTTP API surface — controller, endpoint, DTO, or error shape. Covers status codes, ProblemDetails, DTO separation, validation, versioning, and contract-safety.
 ---
 
 # .NET API design

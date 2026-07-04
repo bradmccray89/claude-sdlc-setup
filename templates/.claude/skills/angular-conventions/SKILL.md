@@ -1,6 +1,6 @@
 ---
 name: angular-conventions
-description: Repo-tailored Angular coding standards. Consult before writing or editing Angular/TypeScript code so the output matches this repo's Angular version (pinned in CLAUDE.md) instead of mixing NgModule-era and signals-era idioms.
+description: Repo-tailored Angular coding standards. Consult before writing or editing Angular/TypeScript so output matches this repo's pinned Angular version.
 ---
 
 # Angular conventions

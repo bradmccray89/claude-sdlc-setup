@@ -1,6 +1,6 @@
 ---
 name: dotnet-upgrade
-description: Upgrade a .NET project to a newer target framework, or migrate .NET Framework to modern .NET — bumping the TFM, working through breaking changes, and updating NuGet packages in step. Consult when the user wants to move to a newer .NET, change TargetFramework, or port off .NET Framework; it is a different discipline from writing day-to-day C# code.
+description: Moving to a newer .NET target framework, or porting .NET Framework to modern .NET — TFM bump, breaking changes, and NuGet updates in step.
 ---
 
 # .NET upgrade

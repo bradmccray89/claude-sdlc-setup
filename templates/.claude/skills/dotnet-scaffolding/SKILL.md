@@ -1,6 +1,6 @@
 ---
 name: dotnet-scaffolding
-description: Use before hand-writing files a generator would produce — adding a project, test project, controller, or EF migration, or wiring project references in a new OR existing .NET solution. Reach for `dotnet new`, `dotnet sln`, `dotnet add`, and `dotnet ef` so files and wiring match the SDK and templates.
+description: Before adding a project, reference, controller, or EF migration (new or existing solution) — use `dotnet new`/`sln`/`add`/`ef` rather than hand-editing csproj/sln.
 ---
 
 # .NET scaffolding

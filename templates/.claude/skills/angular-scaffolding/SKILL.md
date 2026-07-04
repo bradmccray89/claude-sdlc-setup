@@ -1,6 +1,6 @@
 ---
 name: angular-scaffolding
-description: Use before hand-writing files a generator would produce — adding or moving a component, service, pipe, directive, guard, interceptor, or module in a new OR existing Angular project. Reach for `ng generate` so files match the repo's schematics and nothing is left unwired.
+description: Before adding or moving an Angular component, service, pipe, directive, guard, or module (new or existing project) — use `ng generate` rather than hand-writing the files.
 ---
 
 # Angular scaffolding

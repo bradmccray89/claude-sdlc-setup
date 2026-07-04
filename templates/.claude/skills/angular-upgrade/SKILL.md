@@ -1,6 +1,6 @@
 ---
 name: angular-upgrade
-description: Upgrade an Angular app to a newer major version — ng update, breaking changes, and the automated migration schematics. Consult when the user wants to bump Angular's version, run ng update, or migrate to a newer Angular; it is a different discipline from writing day-to-day Angular code.
+description: Bumping the Angular major version — ng update, breaking changes, and migration schematics. Use when upgrading or migrating Angular to a newer version.
 ---
 
 # Angular upgrade

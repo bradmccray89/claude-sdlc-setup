@@ -1,6 +1,6 @@
 ---
 name: angular-testing
-description: How to write the one test each task must leave behind in this Angular repo — TestBed, HttpTestingController, harnesses, fakeAsync, signals — matched to the repo's existing runner. Consult before writing or editing any .spec.ts.
+description: Writing or editing an Angular .spec.ts — TestBed, HttpTestingController, harnesses, fakeAsync, signals — matched to the repo's test runner.
 ---
 
 # Angular testing

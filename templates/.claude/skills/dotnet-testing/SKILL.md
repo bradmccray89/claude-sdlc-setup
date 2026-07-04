@@ -1,6 +1,6 @@
 ---
 name: dotnet-testing
-description: How to write the one test each task must leave behind in this .NET repo — xUnit/NUnit, WebApplicationFactory integration tests, EF Core database strategy, mocking — matched to the repo's existing frameworks. Consult before writing or editing tests.
+description: Writing or editing a .NET test — xUnit/NUnit, WebApplicationFactory integration tests, EF Core DB strategy, mocking — matched to the repo's frameworks.
 ---
 
 # .NET testing

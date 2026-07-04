@@ -1,6 +1,6 @@
 ---
 name: dotnet-conventions
-description: Repo-tailored C#/.NET coding standards. Consult before writing or editing C# code so the output matches this repo's TargetFramework (pinned in CLAUDE.md) and avoids the classic async, DI-lifetime, and EF Core mistakes.
+description: Repo-tailored C#/.NET coding standards. Consult before writing or editing C# so output matches this repo's pinned TargetFramework and avoids async/DI/EF Core pitfalls.
 ---
 
 # .NET conventions

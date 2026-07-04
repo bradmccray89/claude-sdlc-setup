@@ -1,6 +1,6 @@
 ---
 name: ef-core-migrations
-description: Create, review, and apply Entity Framework Core migrations safely — after changing an entity/DbContext, or when adding, editing, reverting, or troubleshooting a migration. Consult before running dotnet ef; migrations are shared, ordered, and touch real databases, so the rules here prevent data loss and broken history.
+description: Creating, reviewing, applying, or reverting EF Core migrations — after changing an entity/DbContext, or before running dotnet ef. Prevents data loss and broken history.
 ---
 
 # EF Core migrations
