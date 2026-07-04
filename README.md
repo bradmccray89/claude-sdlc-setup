@@ -17,6 +17,8 @@ time.
 | `.claude/skills/angular-upgrade/` | Angular-only. The migration discipline for bumping Angular a major at a time — `ng update`, the migration schematics, and the known painful jumps (Material MDC, RxJS 7, the esbuild builder, standalone-by-default). |
 | `.claude/skills/dotnet-conventions/` | .NET-only. Universal async/DI/EF Core rules + a C#-ceiling-by-TFM table (net6→latest). |
 | `.claude/skills/dotnet-testing/` | .NET-only. How to write the test the gate requires — xUnit, `WebApplicationFactory`, EF Core DB strategy, mocking. |
+| `.claude/skills/dotnet-upgrade/` | .NET-only. The discipline for bumping the target framework a major at a time, and the separate job of porting .NET Framework → modern .NET (Upgrade Assistant, `try-convert`, unportable areas). |
+| `.claude/skills/ef-core-migrations/` | .NET-only. Creating, reviewing, and applying EF Core migrations without losing data or breaking shared history — never edit a shipped migration, catch scaffolded rename-as-drop, commit the snapshot together. |
 
 ## Generated at install (not in `templates/`)
 
