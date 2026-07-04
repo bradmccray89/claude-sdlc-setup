@@ -16,7 +16,9 @@ CLAUDE.md says don't touch migrations unasked; this is how to do it when you are
 (merged, deployed, or run on a teammate's/CI's database). Its identity is fixed
 in those databases' `__EFMigrationsHistory`. To change already-shipped schema,
 add a NEW migration. Only a migration that exists solely on your uncommitted
-local branch is safe to remove/regenerate.
+local branch is safe to remove/regenerate. (The protected-paths hook asks you to
+confirm before editing anything under `Migrations/` — treat that prompt as the
+reminder to check whether the migration has already shipped.)
 
 ## Creating a migration
 

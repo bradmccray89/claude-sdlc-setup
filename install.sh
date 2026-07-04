@@ -87,6 +87,7 @@ echo ""
 # ---------- Kit-managed files copied from templates/ ----------
 FILES=(
   ".claude/hooks/verify.sh"
+  ".claude/hooks/protect-paths.sh"
   ".claude/skills/plan-first/SKILL.md"
   ".claude/skills/verify-before-done/SKILL.md"
   ".claude/skills/update-docs/SKILL.md"
@@ -146,6 +147,17 @@ $ALLOW_LINES
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"\$CLAUDE_PROJECT_DIR\"/.claude/hooks/protect-paths.sh"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -211,6 +223,29 @@ Clients branch on status code; a null 200 hid failures. Applies to all read endp
 -->
 EOF
   echo "wrote:         .claude/decisions.md (empty log)"
+fi
+
+# ---------- Generated: .claude/protected-paths (project-owned) ----------
+case "$STACK" in
+  angular) PROTECTED=$'  "*/package-lock.json"       # lock file — let npm manage it\n  "*.generated.ts"             # generated code\n  # "*/src/**/api/*"           # uncomment for OpenAPI/GraphQL-generated clients\n  # "*/dist/*"                 # build output' ;;
+  dotnet)  PROTECTED=$'  "*/Migrations/*.cs"          # EF migrations — never edit an APPLIED one; add a new migration\n  "*.Designer.cs"              # generated designer files\n  "*.generated.cs"\n  "*.g.cs"\n  "*/packages.lock.json"       # lock file — let the tool manage it\n  # "*/Generated/*"            # uncomment for your codegen output' ;;
+  *)       PROTECTED=$'  # Add glob patterns for files that should not be hand-edited:\n  # generated code, migrations, lock files, vendored dirs.\n  # "*/Migrations/*"' ;;
+esac
+
+if [ -f "$TARGET/.claude/protected-paths" ]; then
+  echo "skip (project-owned): .claude/protected-paths"
+else
+  cat > "$TARGET/.claude/protected-paths" <<EOF
+# .claude/protected-paths — editing a file that matches one of these globs
+# triggers a confirmation prompt (a soft guard, not a block) via the PreToolUse
+# hook protect-paths.sh. Patterns use bash [[ == ]] globbing: * spans '/', so
+# "*/Migrations/*" matches any absolute path under a Migrations directory.
+# Project-owned: install.sh never overwrites this file, even with --force.
+PROTECTED_PATHS=(
+$PROTECTED
+)
+EOF
+  echo "wrote:         .claude/protected-paths ($STACK preset)"
 fi
 
 # ---------- Generated: CLAUDE.md (project-owned) ----------
@@ -308,6 +343,7 @@ user corrects you, or you hit a landmine (see the project-memory skill).
 ## Boundaries
 
 - Don't touch without being asked: [migrations, generated code, vendored dirs, ...]
+  (`.claude/protected-paths` makes the PreToolUse hook ask before editing these).
 - Ask before: adding dependencies, changing public APIs, schema changes.
 RST
   } > "$TARGET/CLAUDE.md"

@@ -10,6 +10,7 @@ time.
 | File | What it does |
 |---|---|
 | `.claude/hooks/verify.sh` | Stop hook. Blocks Claude from finishing until the checks in `.claude/verify.config` pass. Cheapest-check-first, escalates to a human after 3 failed attempts, fast-fails in one step on a check that *can't run* (missing tool/script, no browser), skips question-only turns, and caches the last passing state so an unchanged tree doesn't re-run the suite. |
+| `.claude/hooks/protect-paths.sh` | PreToolUse hook. Before an Edit/Write, if the target matches a glob in `.claude/protected-paths` it asks the user to confirm — a soft guard for files dangerous to hand-edit (applied EF migrations, generated code, lock/vendored files). Never hard-blocks; fails open. |
 | `.claude/skills/plan-first/` | Scope non-trivial or ambiguous work before coding — restate the goal, name the approach and risks, and ask when a requirement is unclear. Catches "right code, wrong thing." Skips trivial edits. |
 | `.claude/skills/verify-before-done/` | The definition of done the hook enforces, and how to correctly read a failure. |
 | `.claude/skills/update-docs/` | Documentation agent. Keeps docs matched to *verified* behavior, not intent. |
@@ -35,6 +36,7 @@ repo-specific values — no `[placeholder]`-editing needed to get a working gate
 | `.claude/verify.config` | **project-owned** — never overwritten, even `--force` | The gate's commands, from the stack preset: lint only if a `lint` script exists, karma/jest non-interactive flags, `dotnet build`/`dotnet test`. |
 | `CLAUDE.md` | **project-owned** — never overwritten, even `--force` | Pinned stack facts (Angular major + era rules, or TFM + C# ceiling), the detected commands, the standard workflow, House patterns, and a pointer to the decision log. A few `[placeholders]` remain for what can't be detected. |
 | `.claude/decisions.md` | **project-owned** — never overwritten, even `--force` | The repo's decision/gotcha log. Generated empty; grows as Claude records decisions, corrections, and landmines across sessions. |
+| `.claude/protected-paths` | **project-owned** — never overwritten, even `--force` | Glob patterns the `protect-paths` hook asks about before editing. Seeded with stack defaults (`.NET`: `Migrations/`, `*.Designer.cs`, lock files; Angular: lock files, generated code). |
 | `.claude/settings.json` | kit-managed — `--force` regenerates | Hook wiring + a stack-correct permissions allowlist (npm/ng or dotnet, plus read-only git). |
 
 ## Stack detection
@@ -119,6 +121,12 @@ rerun `install.sh` once — it generates `verify.config` from detection and
   *running the changed path and observing the result* — a `WebApplicationFactory`
   test, a `SMOKE_CMD` that boots and hits the app, or the `verify` skill driving
   the running UI. Green compile ≠ correct behavior.
+- **Two enforcement points, not one.** The Stop hook enforces *verification*
+  after a change; the PreToolUse `protect-paths` hook enforces *boundaries*
+  before one — turning the "don't hand-edit applied migrations / generated code"
+  rules from prose Claude follows *usually* into a confirm-prompt it hits *every
+  time*. It asks rather than blocks (editing an unshipped migration is
+  legitimate) and fails open, so it can never wedge editing.
 - **Understanding is gated before code, not just after.** The Stop hook proves
   the *output* is correct; the `plan-first` skill improves the *input* — for
   non-trivial or ambiguous work, Claude scopes a short plan and asks when a
