@@ -87,6 +87,7 @@ echo ""
 # ---------- Kit-managed files copied from templates/ ----------
 FILES=(
   ".claude/hooks/verify.sh"
+  ".claude/skills/plan-first/SKILL.md"
   ".claude/skills/verify-before-done/SKILL.md"
   ".claude/skills/update-docs/SKILL.md"
   ".claude/skills/project-memory/SKILL.md"
@@ -281,7 +282,7 @@ HDR
     cat <<'RST'
 ## The workflow (every task)
 
-1. Ground before editing — find the nearest existing example of what you're building (prefer the House patterns below), read it, and mirror its structure. Plan non-trivial work before touching code.
+1. Ground and scope before editing — find the nearest existing example (prefer the House patterns below) and mirror it; for non-trivial or ambiguous work, state a short plan and confirm the goal before coding (plan-first skill).
 2. Targeted edits, not wholesale rewrites.
 3. Prove it by running the changed path and observing the result, then leave one test behind (verify-before-done skill).
 4. If behavior changed, update the docs (update-docs skill).
