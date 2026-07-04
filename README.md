@@ -12,6 +12,7 @@ time.
 | `.claude/hooks/verify.sh` | Stop hook. Blocks Claude from finishing until the checks in `.claude/verify.config` pass. Cheapest-check-first, escalates to a human after 3 failed attempts, fast-fails in one step on a check that *can't run* (missing tool/script, no browser), skips question-only turns, and caches the last passing state so an unchanged tree doesn't re-run the suite. |
 | `.claude/skills/verify-before-done/` | The definition of done the hook enforces, and how to correctly read a failure. |
 | `.claude/skills/update-docs/` | Documentation agent. Keeps docs matched to *verified* behavior, not intent. |
+| `.claude/skills/project-memory/` | The discipline for the repo's decision log — what to record (decisions, corrections, gotchas), what to leave out, and when to consult it. Keeps the log signal, not noise. |
 | `.claude/skills/angular-conventions/` | Angular-only. Universal rules + a version-gate table (v14→latest) so generated code stays inside the repo's version ceiling. |
 | `.claude/skills/angular-testing/` | Angular-only. How to write the test the gate requires — TestBed, `HttpTestingController`, harnesses, `fakeAsync`, signals — matched to the repo's runner. |
 | `.claude/skills/angular-upgrade/` | Angular-only. The migration discipline for bumping Angular a major at a time — `ng update`, the migration schematics, and the known painful jumps (Material MDC, RxJS 7, the esbuild builder, standalone-by-default). |
@@ -31,7 +32,8 @@ repo-specific values — no `[placeholder]`-editing needed to get a working gate
 | File | Ownership | What gets generated |
 |---|---|---|
 | `.claude/verify.config` | **project-owned** — never overwritten, even `--force` | The gate's commands, from the stack preset: lint only if a `lint` script exists, karma/jest non-interactive flags, `dotnet build`/`dotnet test`. |
-| `CLAUDE.md` | **project-owned** — never overwritten, even `--force` | Pinned stack facts (Angular major + era rules, or TFM + C# ceiling), the detected commands, and the standard workflow. A few `[placeholders]` remain for what can't be detected. |
+| `CLAUDE.md` | **project-owned** — never overwritten, even `--force` | Pinned stack facts (Angular major + era rules, or TFM + C# ceiling), the detected commands, the standard workflow, House patterns, and a pointer to the decision log. A few `[placeholders]` remain for what can't be detected. |
+| `.claude/decisions.md` | **project-owned** — never overwritten, even `--force` | The repo's decision/gotcha log. Generated empty; grows as Claude records decisions, corrections, and landmines across sessions. |
 | `.claude/settings.json` | kit-managed — `--force` regenerates | Hook wiring + a stack-correct permissions allowlist (npm/ng or dotnet, plus read-only git). |
 
 ## Stack detection
@@ -116,6 +118,11 @@ rerun `install.sh` once — it generates `verify.config` from detection and
   *running the changed path and observing the result* — a `WebApplicationFactory`
   test, a `SMOKE_CMD` that boots and hits the app, or the `verify` skill driving
   the running UI. Green compile ≠ correct behavior.
+- **The setup compounds.** `.claude/decisions.md` is a committed, shared log of
+  decisions, corrections, and gotchas. Claude consults it before non-trivial
+  work and appends to it as it learns, so session 100 knows what sessions 1–99
+  figured out instead of starting cold. The `project-memory` skill keeps it
+  disciplined — only entries that save a future session real time.
 - **No test backfills, ever — coverage grows as exhaust from real tasks.**
   Every task that touches code leaves one test behind, covering exactly what
   just changed.

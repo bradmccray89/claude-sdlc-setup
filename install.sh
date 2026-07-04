@@ -89,6 +89,7 @@ FILES=(
   ".claude/hooks/verify.sh"
   ".claude/skills/verify-before-done/SKILL.md"
   ".claude/skills/update-docs/SKILL.md"
+  ".claude/skills/project-memory/SKILL.md"
 )
 ANGULAR_FILES=(
   ".claude/skills/angular-conventions/SKILL.md"
@@ -191,6 +192,26 @@ EOF
   echo "wrote:         .claude/verify.config ($STACK preset)"
 fi
 
+# ---------- Generated: .claude/decisions.md (project-owned) ----------
+if [ -f "$TARGET/.claude/decisions.md" ]; then
+  echo "skip (project-owned): .claude/decisions.md"
+else
+  cat > "$TARGET/.claude/decisions.md" <<'EOF'
+# Decisions & gotchas
+
+Shared, committed memory for this repo — design decisions, corrections, and
+landmines worth carrying across sessions so they don't get rediscovered every
+time. Newest first. See the project-memory skill for what qualifies; keep it
+signal, not noise, and commit it like any other source.
+
+<!-- Example — delete once you have real entries:
+## 2026-01-15 — [decision] Missing resources return 404, not 200 + null
+Clients branch on status code; a null 200 hid failures. Applies to all read endpoints.
+-->
+EOF
+  echo "wrote:         .claude/decisions.md (empty log)"
+fi
+
 # ---------- Generated: CLAUDE.md (project-owned) ----------
 if [ -f "$TARGET/CLAUDE.md" ]; then
   echo "skip (project-owned): CLAUDE.md"
@@ -273,6 +294,12 @@ RST
     printf 'paths; delete a line you have no exemplar for yet.\n\n'
     printf '%s\n\n' "$HOUSE"
     cat <<'RST'
+## Project memory
+
+Before non-trivial work, check `.claude/decisions.md` for prior decisions and
+known gotchas. Record an entry there when you make a non-obvious decision, the
+user corrects you, or you hit a landmine (see the project-memory skill).
+
 ## Conventions
 
 - [Project-specific patterns reviewers keep flagging — the stack skills cover the generic ones]
